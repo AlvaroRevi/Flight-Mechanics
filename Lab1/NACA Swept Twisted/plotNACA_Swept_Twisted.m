@@ -1,7 +1,7 @@
 clear; clc; close all; 
 %% Data processing
 % Headers of the raw data from XFLR5
-Headers = { 'alpha','Beta','CL','CDi','CDv','CD','CY', 'Cl','Cm','Cn','Cni','QInf','XCP'};
+Headers = {'alpha','Beta','CL','CDi','CDv','CD','CY', 'Cl','Cm','Cn','Cni','QInf','XCP'};
 
 % Legend for the different cases of study 
 leyenda = {'$-7^{\circ}$','$-6^{\circ}$','$-3^{\circ}$','$+2^{\circ}$'};
@@ -15,13 +15,19 @@ for ii = 1:length(F)
     alpha(:,ii) = data{ii}.alpha;
     Cm(:,ii) = data{ii}.Cm;
     CL(:,ii) = data{ii}.CL; 
+end
 
+%% Obtain alpha effective
+C = polyfit(CL(:,1),alpha(:,1),1);
+alpha_0(1) = C(2);
+for i=2:length(alpha(1,:))
+    alpha_0(i) = interp1(CL(:,i),alpha(:,i),0);
 end
 
 %% Plots 
 figure(1)
 hold on 
-plot(alpha,Cm)
+plot(alpha-alpha_0,Cm)
 yline(0,'--')
 grid minor
 axis square
@@ -33,7 +39,7 @@ title('Analysis of the aircraft performance for different twist','Interpreter','
 
 figure(2)
 hold on 
-plot(alpha,CL)
+plot(alpha-alpha_0,CL)
 yline(0,'--')
 grid minor
 axis square

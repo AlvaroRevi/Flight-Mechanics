@@ -15,13 +15,17 @@ for ii = 1:length(F)
     alpha(:,ii) = data{ii}.alpha;
     Cm(:,ii) = data{ii}.Cm;
     CL(:,ii) = data{ii}.CL; 
+end
 
+%% Obtain alpha effective
+for i=1:length(alpha(1,:))
+    alpha_0(i) = interp1(CL(:,i),alpha(:,i),0);
 end
 
 %% Plots 
 figure(1)
 hold on 
-plot(alpha,Cm)
+plot(alpha-alpha_0,Cm)
 yline(0,'--')
 grid minor
 axis square
@@ -33,7 +37,7 @@ title('Analysis of the aircraft performance for different $x_{CG}$','Interpreter
 
 figure(2)
 hold on 
-plot(alpha,CL)
+plot(alpha-alpha_0,CL)
 yline(0,'--')
 grid minor
 axis square
