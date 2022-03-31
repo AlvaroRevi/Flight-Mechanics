@@ -4,7 +4,7 @@ clear; clc; close all;
 Headers = { 'alpha','Beta','CL','CDi','CDv','CD','CY', 'Cl','Cm','Cn','Cni','QInf','XCP'};
 
 % Legend for the different cases of study 
-leyenda = {'0.026m','0.025m','0.024m','0.03m','0.02m','0.01m'};
+leyenda = {'0.023m','0.024m','0.025m','0.026m','0.02m','0.03m','0.01m'};
 
 % Read one by one each of the .txt of the directory and store the data 
 F = dir('*.txt');
