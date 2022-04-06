@@ -13,7 +13,7 @@ Headers = { 'alpha','Beta','CL','CDi','CDv','CD','CY', 'Cl','Cm','Cn','Cni','QIn
 
 % Legend for the different cases of study 
 
-leyenda = {'Nominal Case','Tw= -6','Tw =-4','Tw = +1'};
+leyenda = {'Nominal Case','$\theta$= -6$^{\circ}$','$\theta$ =-4$^{\circ}$','$\theta$ = +1$^{\circ}$'};
 
 
 %% Nominal case 
@@ -190,10 +190,10 @@ yline(0,'--')
 grid minor
 axis square
 xlim([0,7.5])
-xlabel('$\alpha$ [rad]','Interpreter','latex','FontSize',18)
+xlabel('$\alpha$ [$^{\circ}$]','Interpreter','latex','FontSize',18)
 ylabel('$Endurance [s]$','Interpreter','latex','FontSize',18)
 legend(leyenda,'Interpreter','latex')
-title('Aircraft performance for different aspect ratio','Interpreter','latex','FontSize',18)
+title('Aircraft performance for different twist angles at the tip','Interpreter','latex','FontSize',18)
 
 figure(5)
 hold on 
@@ -205,10 +205,10 @@ yline(0,'--')
 grid minor
 axis square
 xlim([0,7.5])
-xlabel('$\alpha$ [rad]','Interpreter','latex','FontSize',18)
+xlabel('$\alpha$ [$^{\circ}$]','Interpreter','latex','FontSize',18)
 ylabel('$Range [m]$','Interpreter','latex','FontSize',18)
 legend(leyenda,'Interpreter','latex')
-title('Aircraft performance for different aspect ratio','Interpreter','latex','FontSize',18)
+title('Aircraft performance for different twist angles at the tip','Interpreter','latex','FontSize',18)
 
 figure(6)
 hold on

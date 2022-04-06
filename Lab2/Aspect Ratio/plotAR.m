@@ -181,7 +181,7 @@ yline(0,'--')
 grid minor
 axis square
 xlim([0,7.5])
-xlabel('$\alpha$ [rad]','Interpreter','latex','FontSize',18)
+xlabel('$\alpha$ [$^{\circ}$]','Interpreter','latex','FontSize',18)
 ylabel('$Endurance [s]$','Interpreter','latex','FontSize',18)
 legend(leyenda,'Interpreter','latex')
 title('Aircraft performance for different aspect ratio','Interpreter','latex','FontSize',18)
@@ -196,7 +196,7 @@ yline(0,'--')
 grid minor
 axis square
 xlim([0,7.5])
-xlabel('$\alpha$ [rad]','Interpreter','latex','FontSize',18)
+xlabel('$\alpha$ [$^{\circ}$]','Interpreter','latex','FontSize',18)
 ylabel('$Range [m]$','Interpreter','latex','FontSize',18)
 legend(leyenda,'Interpreter','latex')
 title('Aircraft performance for different aspect ratio','Interpreter','latex','FontSize',18)
@@ -206,6 +206,6 @@ hold on
 grid minor
 axis square
 plot([6.89, 11.03, 15.172 27.59], [V_6,V_11,V_Nom,V_27],'r.-','MarkerSize',10,'LineWidth',2)
-xlabel('Aspect Ratio [rad]','Interpreter','latex','FontSize',18)
+xlabel('Aspect Ratio','Interpreter','latex','FontSize',18)
 ylabel('Trim velocity [m/s]','Interpreter','latex','FontSize',18)
 title('Trim condition for different aspect ratio','Interpreter','latex','FontSize',18)
