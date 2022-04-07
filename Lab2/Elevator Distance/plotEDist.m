@@ -43,6 +43,14 @@ rate_descent_Nom = - sqrt(2*W/(rho*S)).*CD_Nom(CL_Nom>=0)./(CL_Nom(CL_Nom>=0).^(
 
 Endurance_Nom = -deltaH./rate_descent_Nom;
 
+% Trim condition
+
+CD_zero_moment_Nom = interp1(alpha_Nom-alpha_0_Nom,CD_Nom,alpha_zero_torque_Nom);
+
+R_Trim_Nom = deltaH*Cl_zero_moment_Nom/CD_zero_moment_Nom;
+
+E_Trim_Nom = deltaH/(sqrt(2*W/(rho*S)).*CD_zero_moment_Nom/(Cl_zero_moment_Nom^(3/2)));
+
 %% Elevator distance = 0.5m
 
 data_5 =readtable('ED_5_T1-19_3 m_s-VLM2.txt','HeaderLines',5);                
@@ -70,6 +78,11 @@ rate_descent_5 = - sqrt(2*W/(rho*S)).*CD_5(CL_5>=0)./(CL_5(CL_5>=0).^(3/2));
 
 Endurance_5 = -deltaH./rate_descent_5;
 
+CD_zero_moment_5 = interp1(alpha_5-alpha_0_5,CD_5,alpha_zero_torque_5);
+
+R_Trim_5 = deltaH*Cl_zero_moment_5/CD_zero_moment_5;
+
+E_Trim_5 = deltaH/(sqrt(2*W/(rho*S)).*CD_zero_moment_5/(Cl_zero_moment_5^(3/2)));
 
 %% Elevator distance = 0.3 
 
@@ -98,6 +111,12 @@ rate_descent_3 = - sqrt(2*W/(rho*S)).*CD_3(CL_3>=0)./(CL_3(CL_3>=0).^(3/2));
 
 Endurance_3 = -deltaH./rate_descent_3;
 
+CD_zero_moment_3 = interp1(alpha_3-alpha_0_3,CD_3,alpha_zero_torque_3);
+
+R_Trim_3 = deltaH*Cl_zero_moment_3/CD_zero_moment_3;
+
+E_Trim_3 = deltaH/(sqrt(2*W/(rho*S)).*CD_zero_moment_3/(Cl_zero_moment_3^(3/2)));
+
 %% Elevator distance = -0.1m
 
 data_1 =readtable('ED_m1_T1-20_85 m_s-VLM2.txt','HeaderLines',5);                
@@ -124,6 +143,12 @@ R_1 = deltaH.*CL_1(CL_1>=0)./CD_1(CL_1>=0);
 rate_descent_1 = - sqrt(2*W/(rho*S)).*CD_1(CL_1>=0)./(CL_1(CL_1>=0).^(3/2)); 
 
 Endurance_1 = -deltaH./rate_descent_1;
+
+CD_zero_moment_1 = interp1(alpha_1-alpha_0_1,CD_1,alpha_zero_torque_1);
+
+R_Trim_1 = deltaH*Cl_zero_moment_1/CD_zero_moment_1;
+
+E_Trim_1 = deltaH/(sqrt(2*W/(rho*S)).*CD_zero_moment_1/(Cl_zero_moment_1^(3/2)));
 
 %% Plots 
 figure(1)
@@ -173,33 +198,45 @@ title('Analysis of the aircraft performance for different $x_{CG}$','Interpreter
 
 figure(4)
 hold on 
-plot(alpha_Nom(CL_Nom>=0)-alpha_0_Nom,Endurance_Nom,'--','LineWidth',1)
-plot(alpha_5(CL_5>=0)-alpha_0_5,Endurance_5,'LineWidth',1)
-plot(alpha_3(CL_3>=0)-alpha_0_3,Endurance_3,'LineWidth',1)
-plot(alpha_1(CL_1>=0)-alpha_0_1,Endurance_1,'LineWidth',1)
+plot(alpha_Nom(CL_Nom>=0)-alpha_0_Nom,Endurance_Nom,'b--','LineWidth',1)
+plot(alpha_5(CL_5>=0)-alpha_0_5,Endurance_5,'r-','LineWidth',1)
+plot(alpha_3(CL_3>=0)-alpha_0_3,Endurance_3,'m-','LineWidth',1)
+plot(alpha_1(CL_1>=0)-alpha_0_1,Endurance_1,'k-','LineWidth',1)
+
+plot(alpha_zero_torque_Nom,E_Trim_Nom,'b.','MarkerSize',20)
+plot(alpha_zero_torque_5,E_Trim_5,'r.','MarkerSize',20)
+plot(alpha_zero_torque_3,E_Trim_3,'m.','MarkerSize',20)
+plot(alpha_zero_torque_1,E_Trim_1,'k.','MarkerSize',20)
+
 yline(0,'--')
 grid minor
 axis square
 xlim([0,7.5])
-xlabel('$\alpha$ [rad]','Interpreter','latex','FontSize',18)
-ylabel('$Endurance [s]$','Interpreter','latex','FontSize',18)
+xlabel('$\alpha$ [rad]','Interpreter','latex','FontSize',14)
+ylabel('$Endurance [s]$','Interpreter','latex','FontSize',14)
 legend(leyenda,'Interpreter','latex')
-title('Aircraft performance for elevator position','Interpreter','latex','FontSize',18)
+title('Aircraft performance for elevator position','Interpreter','latex','FontSize',14)
 
 figure(5)
 hold on 
-plot(alpha_Nom(CL_Nom>=0)-alpha_0_Nom,R_Nom,'--','LineWidth',1)
-plot(alpha_5(CL_5>=0)-alpha_0_5,R_5,'LineWidth',1)
-plot(alpha_3(CL_3>=0)-alpha_0_3,R_3,'LineWidth',1)
-plot(alpha_1(CL_1>=0)-alpha_0_1,R_1,'LineWidth',1)
+plot(alpha_Nom(CL_Nom>=0)-alpha_0_Nom,R_Nom,'b--','LineWidth',1)
+plot(alpha_5(CL_5>=0)-alpha_0_5,R_5,'r-','LineWidth',1)
+plot(alpha_3(CL_3>=0)-alpha_0_3,R_3,'m-','LineWidth',1)
+plot(alpha_1(CL_1>=0)-alpha_0_1,R_1,'k-','LineWidth',1)
+
+plot(alpha_zero_torque_Nom,R_Trim_Nom,'b.','MarkerSize',20)
+plot(alpha_zero_torque_5,R_Trim_5,'r.','MarkerSize',20)
+plot(alpha_zero_torque_3,R_Trim_3,'m.','MarkerSize',20)
+plot(alpha_zero_torque_1,R_Trim_1,'k.','MarkerSize',20)
+
 yline(0,'--')
 grid minor
 axis square
 xlim([0,7.5])
-xlabel('$\alpha$ [$^{\circ}$]','Interpreter','latex','FontSize',18)
-ylabel('$Range [m]$','Interpreter','latex','FontSize',18)
+xlabel('$\alpha$ [$^{\circ}$]','Interpreter','latex','FontSize',14)
+ylabel('$Range [m]$','Interpreter','latex','FontSize',14)
 legend(leyenda,'Interpreter','latex')
-title('Aircraft performance for different elevator position','Interpreter','latex','FontSize',18)
+title('Aircraft performance for different elevator position','Interpreter','latex','FontSize',14)
 
 figure(6)
 hold on

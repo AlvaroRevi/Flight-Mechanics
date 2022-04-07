@@ -45,6 +45,15 @@ rate_descent_Nom = - sqrt(2*W(1)/(rho*S(1))).*CD_Nom(CL_Nom>=0)./(CL_Nom(CL_Nom>
 
 Endurance_Nom = -deltaH./rate_descent_Nom;
 
+% Trim condition
+
+CD_zero_moment_Nom = interp1(alpha_Nom-alpha_0_Nom,CD_Nom,alpha_zero_torque_Nom);
+
+
+R_Trim_Nom = deltaH*Cl_zero_moment_Nom/CD_zero_moment_Nom;
+
+E_Trim_Nom = deltaH/(sqrt(2*W(1)/(rho*S(1))).*CD_zero_moment_Nom/(Cl_zero_moment_Nom^(3/2)));
+
 %% Elevator surface = 0.2m^2 AR = 2.4
 
 data_S2 =readtable('S2_T1-20_1 m_s-VLM2.txt','HeaderLines',5);                
@@ -72,6 +81,12 @@ rate_descent_S2 = - sqrt(2*W(2)/(rho*S(2))).*CD_S2(CL_S2>=0)./(CL_S2(CL_S2>=0).^
 
 Endurance_S2 = -deltaH./rate_descent_S2;
 
+CD_zero_moment_S2 = interp1(alpha_S2-alpha_0_S2,CD_S2,alpha_zero_torque_S2);
+
+R_Trim_S2 = deltaH*Cl_zero_moment_S2/CD_zero_moment_S2;
+
+E_Trim_S2 = deltaH/(sqrt(2*W(2)/(rho*S(2))).*CD_zero_moment_S2/(Cl_zero_moment_S2^(3/2)));
+
 %% Surface elevator = 0.05m^2 , AR = 4.8
 data_S4 =readtable('S4_T1-27_1 m_s-VLM2.txt','HeaderLines',5);                
 data_S4.Properties.VariableNames = Headers;
@@ -97,6 +112,13 @@ R_S4 = deltaH.*CL_S4(CL_S4>=0)./CD_S4(CL_S4>=0);
 rate_descent_S4 = - sqrt(2*W(3)/(rho*S(3))).*CD_S4(CL_S4>=0)./(CL_S4(CL_S4>=0).^(3/2)); 
 
 Endurance_S4 = -deltaH./rate_descent_S4;
+
+% Trim condition 
+CD_zero_moment_S4 = interp1(alpha_S4-alpha_0_S4,CD_S4,alpha_zero_torque_S4);
+
+R_Trim_S4 = deltaH*Cl_zero_moment_S4/CD_zero_moment_S4;
+
+E_Trim_S4 = deltaH/(sqrt(2*W(3)/(rho*S(3))).*CD_zero_moment_S4/(Cl_zero_moment_S4^(3/2)));
 
 %% Surface elevator = 0.01m^2  AR = 2.4
 
@@ -124,6 +146,13 @@ R_S05 = deltaH.*CL_S05(CL_S05>=0)./CD_S05(CL_S05>=0);
 rate_descent_S05 = - sqrt(2*W(4)/(rho*S(4))).*CD_S05(CL_S05>=0)./(CL_S05(CL_S05>=0).^(3/2)); 
 
 Endurance_S05 = -deltaH./rate_descent_S05;
+
+% Trim condition 
+CD_zero_moment_S05 = interp1(alpha_S05-alpha_0_S05,CD_S05,alpha_zero_torque_S05);
+
+R_Trim_S05 = deltaH*Cl_zero_moment_S05/CD_zero_moment_S05;
+
+E_Trim_S05 = deltaH/(sqrt(2*W(4)/(rho*S(4))).*CD_zero_moment_S05/(Cl_zero_moment_S05^(3/2)));
 
 %% Plots 
 figure(1)
@@ -173,33 +202,45 @@ title('Analysis of the aircraft performance for different $x_{CG}$','Interpreter
 
 figure(4)
 hold on 
-plot(alpha_Nom(CL_Nom>=0)-alpha_0_Nom,Endurance_Nom,'--','LineWidth',1)
-plot(alpha_S2(CL_S2>=0)-alpha_0_S2,Endurance_S2,'LineWidth',1)
-plot(alpha_S4(CL_S4>=0)-alpha_0_S4,Endurance_S4,'LineWidth',1)
-plot(alpha_S05(CL_S05>=0)-alpha_0_S05,Endurance_S05,'LineWidth',1)
+plot(alpha_Nom(CL_Nom>=0)-alpha_0_Nom,Endurance_Nom,'b--','LineWidth',1)
+plot(alpha_S2(CL_S2>=0)-alpha_0_S2,Endurance_S2,'r-','LineWidth',1)
+plot(alpha_S4(CL_S4>=0)-alpha_0_S4,Endurance_S4,'m-','LineWidth',1)
+plot(alpha_S05(CL_S05>=0)-alpha_0_S05,Endurance_S05,'k-','LineWidth',1)
+
+plot(alpha_zero_torque_Nom,E_Trim_Nom,'b.','MarkerSize',20)
+plot(alpha_zero_torque_S2,E_Trim_S2,'r.','MarkerSize',20)
+plot(alpha_zero_torque_S4,E_Trim_S4,'m.','MarkerSize',20)
+plot(alpha_zero_torque_S05,E_Trim_S05,'k.','MarkerSize',20)
+
 yline(0,'--')
 grid minor
 axis square
 xlim([0,7.5])
-xlabel('$\alpha$ [$^{\circ}$]','Interpreter','latex','FontSize',18)
-ylabel('$Endurance [s]$','Interpreter','latex','FontSize',18)
+xlabel('$\alpha$ [$^{\circ}$]','Interpreter','latex','FontSize',14)
+ylabel('$Endurance [s]$','Interpreter','latex','FontSize',14)
 legend(leyenda,'Interpreter','latex','location','best')
-title('Aircraft performance for different elevator size','Interpreter','latex','FontSize',18)
+title('Aircraft performance for different elevator size','Interpreter','latex','FontSize',14)
 
 figure(5)
 hold on 
-plot(alpha_Nom(CL_Nom>=0)-alpha_0_Nom,R_Nom,'--','LineWidth',1)
-plot(alpha_S2(CL_S2>=0)-alpha_0_S2,R_S2,'LineWidth',1)
-plot(alpha_S4(CL_S4>=0)-alpha_0_S4,R_S4,'LineWidth',1)
-plot(alpha_S05(CL_S05>=0)-alpha_0_S05,R_S05,'LineWidth',1)
+plot(alpha_Nom(CL_Nom>=0)-alpha_0_Nom,R_Nom,'b--','LineWidth',1)
+plot(alpha_S2(CL_S2>=0)-alpha_0_S2,R_S2,'r-','LineWidth',1)
+plot(alpha_S4(CL_S4>=0)-alpha_0_S4,R_S4,'m-','LineWidth',1)
+plot(alpha_S05(CL_S05>=0)-alpha_0_S05,R_S05,'k-','LineWidth',1)
+
+plot(alpha_zero_torque_Nom,R_Trim_Nom,'b.','MarkerSize',20)
+plot(alpha_zero_torque_S2,R_Trim_S2,'r.','MarkerSize',20)
+plot(alpha_zero_torque_S4,R_Trim_S4,'m.','MarkerSize',20)
+plot(alpha_zero_torque_S05,R_Trim_S05,'k.','MarkerSize',20)
+
 yline(0,'--')
 grid minor
 axis square
 xlim([0,7.5])
-xlabel('$\alpha$ [$^{\circ}$]','Interpreter','latex','FontSize',18)
-ylabel('$Range [m]$','Interpreter','latex','FontSize',18)
+xlabel('$\alpha$ [$^{\circ}$]','Interpreter','latex','FontSize',14)
+ylabel('$Range [m]$','Interpreter','latex','FontSize',14)
 legend(leyenda,'Interpreter','latex','Location','best')
-title('Aircraft performance for different elevator size','Interpreter','latex','FontSize',18)
+title('Aircraft performance for different elevator size','Interpreter','latex','FontSize',14)
 
 figure(6)
 hold on

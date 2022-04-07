@@ -47,8 +47,9 @@ Endurance_Nom = -deltaH./rate_descent_Nom;
 
 CD_zero_moment_Nom = interp1(alpha_Nom-alpha_0_Nom,CD_Nom,alpha_zero_torque_Nom);
 
-
 R_Trim_Nom = deltaH*Cl_zero_moment_Nom/CD_zero_moment_Nom;
+
+E_Trim_Nom = deltaH/(sqrt(2*W(1)/(rho*S(1))).*CD_zero_moment_Nom/(Cl_zero_moment_Nom^(3/2)));
 
 %% AR = 6.89 
 data_6 =readtable('AR_6_89_T1-39_01_m_s-VLM2.txt','HeaderLines',5);                
@@ -75,6 +76,14 @@ rate_descent_6 = - sqrt(2*W(2)/(rho*S(2))).*CD_6(CL_6>=0)./(CL_6(CL_6>=0).^(3/2)
 
 Endurance_6 = -deltaH./rate_descent_6;
 
+% Trim condition
+
+CD_zero_moment_6 = interp1(alpha_6-alpha_0_6,CD_6,alpha_zero_torque_6);
+
+
+R_Trim_6 = deltaH*Cl_zero_moment_6/CD_zero_moment_6;
+
+E_Trim_6 = deltaH/(sqrt(2*W(1)/(rho*S(1))).*CD_zero_moment_6/(Cl_zero_moment_6^(3/2)));
 
 %% AR = 11.03
 data_11 =readtable('AR_11_03_T1-26_44 m_s-VLM2.txt','HeaderLines',5);                
@@ -100,6 +109,15 @@ R_11 = deltaH.*CL_11(CL_11>=0)./CD_11(CL_11>=0);
 rate_descent_11 = - sqrt(2*W(3)/(rho*S(3))).*CD_11(CL_11>=0)./(CL_11(CL_11>=0).^(3/2)); 
 
 Endurance_11 = -deltaH./rate_descent_11;
+
+% Trim condition
+
+CD_zero_moment_11 = interp1(alpha_11-alpha_0_11,CD_11,alpha_zero_torque_11);
+
+
+R_Trim_11 = deltaH*Cl_zero_moment_11/CD_zero_moment_11;
+
+E_Trim_11 = deltaH/(sqrt(2*W(1)/(rho*S(1))).*CD_zero_moment_11/(Cl_zero_moment_11^(3/2)));
 
 %% AR = 27.59
 data_27 =readtable('AR_27_586_T1-15 m_s-VLM2.txt','HeaderLines',5);                
@@ -131,6 +149,14 @@ rate_descent_27 = - sqrt(2*W(1)/(rho*S(1))).*CD_27(CL_27>=0)./(CL_27(CL_27>=0).^
 
 Endurance_27 = -deltaH./rate_descent_27;
 
+% Trim condition
+
+CD_zero_moment_27 = interp1(alpha_27-alpha_0_27,CD_27,alpha_zero_torque_27);
+
+
+R_Trim_27 = deltaH*Cl_zero_moment_27/CD_zero_moment_27;
+
+E_Trim_27 = deltaH/(sqrt(2*W(1)/(rho*S(1))).*CD_zero_moment_27/(Cl_zero_moment_27^(3/2)));
 
 %% Plots 
 figure(1)
@@ -180,42 +206,51 @@ title('Analysis of the aircraft performance for different $x_{CG}$','Interpreter
 
 figure(4)
 hold on 
-plot(alpha_Nom(CL_Nom>=0)-alpha_0_Nom,Endurance_Nom,'--','LineWidth',1)
-plot(alpha_6(CL_6>=0)-alpha_0_6,Endurance_6,'LineWidth',1)
-plot(alpha_11(CL_11>=0)-alpha_0_11,Endurance_11,'LineWidth',1)
-plot(alpha_27(CL_27>=0)-alpha_0_27,Endurance_27,'LineWidth',1)
+plot(alpha_Nom(CL_Nom>=0)-alpha_0_Nom,Endurance_Nom,'b--','LineWidth',1)
+plot(alpha_6(CL_6>=0)-alpha_0_6,Endurance_6,'r-','LineWidth',1)
+plot(alpha_11(CL_11>=0)-alpha_0_11,Endurance_11,'m-','LineWidth',1)
+plot(alpha_27(CL_27>=0)-alpha_0_27,Endurance_27,'k-','LineWidth',1)
+
+plot(alpha_zero_torque_Nom,E_Trim_Nom,'b.','MarkerSize',20)
+plot(alpha_zero_torque_6,E_Trim_6,'r.','MarkerSize',20)
+plot(alpha_zero_torque_11,E_Trim_11,'m.','MarkerSize',20)
+plot(alpha_zero_torque_27,E_Trim_27,'k.','MarkerSize',20)
+
 yline(0,'--')
 grid minor
 axis square
 xlim([0,7.5])
-xlabel('$\alpha$ [$^{\circ}$]','Interpreter','latex','FontSize',18)
-ylabel('$Endurance [s]$','Interpreter','latex','FontSize',18)
+xlabel('$\alpha$ [$^{\circ}$]','Interpreter','latex','FontSize',14)
+ylabel('$Endurance [s]$','Interpreter','latex','FontSize',14)
 legend(leyenda,'Interpreter','latex')
-title('Aircraft performance for different aspect ratio','Interpreter','latex','FontSize',18)
+title('Aircraft performance for different aspect ratio','Interpreter','latex','FontSize',14)
 
 figure(5)
 hold on 
 plot(alpha_Nom(CL_Nom>=0)-alpha_0_Nom,R_Nom,'b--','LineWidth',1)
 plot(alpha_6(CL_6>=0)-alpha_0_6,R_6,'r-','LineWidth',1)
-plot(alpha_11(CL_11>=0)-alpha_0_11,R_11,'g-','LineWidth',1)
+plot(alpha_11(CL_11>=0)-alpha_0_11,R_11,'m-','LineWidth',1)
 plot(alpha_27(CL_27>=0)-alpha_0_27,R_27,'k-','LineWidth',1)
 
-plot(alpha_zero_torque_Nom,R_Trim_Nom,'b*','MarkerSize',10)
+plot(alpha_zero_torque_Nom,R_Trim_Nom,'b.','MarkerSize',20)
+plot(alpha_zero_torque_6,R_Trim_6,'r.','MarkerSize',20)
+plot(alpha_zero_torque_11,R_Trim_11,'m.','MarkerSize',20)
+plot(alpha_zero_torque_27,R_Trim_27,'k.','MarkerSize',20) 
 
 yline(0,'--')
 grid minor
 axis square
 xlim([0,7.5])
-xlabel('$\alpha$ [$^{\circ}$]','Interpreter','latex','FontSize',18)
-ylabel('$Range [m]$','Interpreter','latex','FontSize',18)
+xlabel('$\alpha$ [$^{\circ}$]','Interpreter','latex','FontSize',14)
+ylabel('$Range [m]$','Interpreter','latex','FontSize',14)
 legend(leyenda,'Interpreter','latex')
-title('Aircraft performance for different aspect ratio','Interpreter','latex','FontSize',18)
+title('Aircraft performance for different aspect ratio','Interpreter','latex','FontSize',14)
 
 figure(6)
 hold on
 grid minor
 axis square
 plot([6.89, 11.03, 15.172 27.59], [V_6,V_11,V_Nom,V_27],'r.-','MarkerSize',10,'LineWidth',2)
-xlabel('Aspect Ratio','Interpreter','latex','FontSize',18)
-ylabel('Trim velocity [m/s]','Interpreter','latex','FontSize',18)
-title('Trim condition for different aspect ratio','Interpreter','latex','FontSize',18)
+xlabel('Aspect Ratio','Interpreter','latex','FontSize',14)
+ylabel('Trim velocity [m/s]','Interpreter','latex','FontSize',14)
+title('Trim condition for different aspect ratio','Interpreter','latex','FontSize',14)
