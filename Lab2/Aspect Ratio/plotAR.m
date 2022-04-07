@@ -43,6 +43,13 @@ rate_descent_Nom = - sqrt(2*W(1)/(rho*S(1))).*CD_Nom(CL_Nom>=0)./(CL_Nom(CL_Nom>
 
 Endurance_Nom = -deltaH./rate_descent_Nom;
 
+% Trim condition
+
+CD_zero_moment_Nom = interp1(alpha_Nom-alpha_0_Nom,CD_Nom,alpha_zero_torque_Nom);
+
+
+R_Trim_Nom = deltaH*Cl_zero_moment_Nom/CD_zero_moment_Nom;
+
 %% AR = 6.89 
 data_6 =readtable('AR_6_89_T1-39_01_m_s-VLM2.txt','HeaderLines',5);                
 data_6.Properties.VariableNames = Headers;
@@ -188,10 +195,13 @@ title('Aircraft performance for different aspect ratio','Interpreter','latex','F
 
 figure(5)
 hold on 
-plot(alpha_Nom(CL_Nom>=0)-alpha_0_Nom,R_Nom,'--','LineWidth',1)
-plot(alpha_6(CL_6>=0)-alpha_0_6,R_6,'LineWidth',1)
-plot(alpha_11(CL_11>=0)-alpha_0_11,R_11,'LineWidth',1)
-plot(alpha_27(CL_27>=0)-alpha_0_27,R_27,'LineWidth',1)
+plot(alpha_Nom(CL_Nom>=0)-alpha_0_Nom,R_Nom,'b--','LineWidth',1)
+plot(alpha_6(CL_6>=0)-alpha_0_6,R_6,'r-','LineWidth',1)
+plot(alpha_11(CL_11>=0)-alpha_0_11,R_11,'g-','LineWidth',1)
+plot(alpha_27(CL_27>=0)-alpha_0_27,R_27,'k-','LineWidth',1)
+
+plot(alpha_zero_torque_Nom,R_Trim_Nom,'b*','MarkerSize',10)
+
 yline(0,'--')
 grid minor
 axis square
