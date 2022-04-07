@@ -13,7 +13,7 @@ Headers = { 'alpha','Beta','CL','CDi','CDv','CD','CY', 'Cl','Cm','Cn','Cni','QIn
 
 % Legend for the different cases of study 
 
-leyenda = {'Nominal Case','$U_{\infty}$=18m/s','$U_{\infty}$=17m/s','$U_{\infty}$=16m/s'};
+leyenda = {'Nominal Case','$U_{\infty}$=30m/s','$U_{\infty}$=40m/s','$U_{\infty}$=16m/s'};
 
 
 %% Nominal case 
@@ -43,59 +43,82 @@ rate_descent_Nom = - sqrt(2*W/(rho*S)).*CD_Nom(CL_Nom>=0)./(CL_Nom(CL_Nom>=0).^(
 
 Endurance_Nom = -deltaH./rate_descent_Nom;
 
-%% U_inf = 18 m/s 
-data_18 =readtable('T1-18_0 m_s-VLM2.txt','HeaderLines',5);                
-data_18.Properties.VariableNames = Headers;
+% Trim condition
 
-alpha_18 = data_18.alpha;
-Cm_18 = data_18.Cm;
-CL_18 = data_18.CL; 
-CD_18 = data_18.CD; 
+CD_zero_moment_Nom = interp1(alpha_Nom-alpha_0_Nom,CD_Nom,alpha_zero_torque_Nom);
 
-for i=1:length(alpha_18)
-  alpha_0_18 = interp1(CL_18,alpha_18,0);
+R_Trim_Nom = deltaH*Cl_zero_moment_Nom/CD_zero_moment_Nom;
+
+E_Trim_Nom = deltaH/(sqrt(2*W(1)/(rho*S(1))).*CD_zero_moment_Nom/(Cl_zero_moment_Nom^(3/2)));
+
+
+%% U_inf = 30 m/s 
+data_30 =readtable('T1-30_0 m_s-VLM2.txt','HeaderLines',5);                
+data_30.Properties.VariableNames = Headers;
+
+alpha_30 = data_30.alpha;
+Cm_30 = data_30.Cm;
+CL_30 = data_30.CL; 
+CD_30 = data_30.CD; 
+
+for i=1:length(alpha_30)
+  alpha_0_30 = interp1(CL_30,alpha_30,0);
 end
 
-alpha_zero_torque_18 = interp1(Cm_18,alpha_18-alpha_0_18,0);
+alpha_zero_torque_30 = interp1(Cm_30,alpha_30-alpha_0_30,0);
 
-Cl_zero_moment_18 = interp1(alpha_18-alpha_0_18,CL_18,alpha_zero_torque_18);
+Cl_zero_moment_30 = interp1(alpha_30-alpha_0_30,CL_30,alpha_zero_torque_30);
 
-V_18 = sqrt(2*W/(rho*S*Cl_zero_moment_18));
+V_30 = sqrt(2*W/(rho*S*Cl_zero_moment_30));
 
 
-R_18 = deltaH.*CL_18(CL_18>=0)./CD_18(CL_18>=0);
+R_30 = deltaH.*CL_30(CL_30>=0)./CD_30(CL_30>=0);
 
-rate_descent_18 = - sqrt(2*W/(rho*S)).*CD_18(CL_18>=0)./(CL_18(CL_18>=0).^(3/2)); 
+rate_descent_30 = - sqrt(2*W/(rho*S)).*CD_30(CL_30>=0)./(CL_30(CL_30>=0).^(3/2)); 
 
-Endurance_18 = -deltaH./rate_descent_18;
+Endurance_30 = -deltaH./rate_descent_30;
 
+% Trim condition
+
+CD_zero_moment_30 = interp1(alpha_30-alpha_0_30,CD_30,alpha_zero_torque_30);
+
+R_Trim_30 = deltaH*Cl_zero_moment_30/CD_zero_moment_30;
+
+E_Trim_30 = deltaH/(sqrt(2*W(1)/(rho*S(1))).*CD_zero_moment_30/(Cl_zero_moment_30^(3/2)));
 
 %% U_inf = 17
 
-data_17 =readtable('T1-17_0 m_s-VLM2.txt','HeaderLines',5);                
-data_17.Properties.VariableNames = Headers;
+data_40 =readtable('T1-40_0 m_s-VLM2.txt','HeaderLines',5);                
+data_40.Properties.VariableNames = Headers;
 
-alpha_17 = data_17.alpha;
-Cm_17 = data_17.Cm;
-CL_17 = data_17.CL; 
-CD_17 = data_17.CD; 
+alpha_40 = data_40.alpha;
+Cm_40 = data_40.Cm;
+CL_40 = data_40.CL; 
+CD_40 = data_40.CD; 
 
-for i=1:length(alpha_17)
-  alpha_0_17 = interp1(CL_17,alpha_17,0);
+for i=1:length(alpha_40)
+  alpha_0_40 = interp1(CL_40,alpha_40,0);
 end
 
-alpha_zero_torque_17 = interp1(Cm_17,alpha_17-alpha_0_17,0);
+alpha_zero_torque_40 = interp1(Cm_40,alpha_40-alpha_0_40,0);
 
-Cl_zero_moment_17 = interp1(alpha_17-alpha_0_17,CL_17,alpha_zero_torque_17);
+Cl_zero_moment_40 = interp1(alpha_40-alpha_0_40,CL_40,alpha_zero_torque_40);
 
-V_17 = sqrt(2*W/(rho*S*Cl_zero_moment_17));
+V_40 = sqrt(2*W/(rho*S*Cl_zero_moment_40));
 
+R_40 = deltaH.*CL_40(CL_40>=0)./CD_40(CL_40>=0);
 
-R_17 = deltaH.*CL_17(CL_17>=0)./CD_17(CL_17>=0);
+rate_descent_40 = - sqrt(2*W/(rho*S)).*CD_40(CL_40>=0)./(CL_40(CL_40>=0).^(3/2)); 
 
-rate_descent_17 = - sqrt(2*W/(rho*S)).*CD_17(CL_17>=0)./(CL_17(CL_17>=0).^(3/2)); 
+Endurance_40 = -deltaH./rate_descent_40;
 
-Endurance_17 = -deltaH./rate_descent_17;
+% Trim condition
+
+CD_zero_moment_40 = interp1(alpha_40-alpha_0_40,CD_40,alpha_zero_torque_40);
+
+R_Trim_40 = deltaH*Cl_zero_moment_40/CD_zero_moment_40;
+
+E_Trim_40 = deltaH/(sqrt(2*W(1)/(rho*S(1))).*CD_zero_moment_40/(Cl_zero_moment_40^(3/2)));
 
 %% U_inf = 16 m/s 
 
@@ -124,12 +147,20 @@ rate_descent_16 = - sqrt(2*W/(rho*S)).*CD_16(CL_16>=0)./(CL_16(CL_16>=0).^(3/2))
 
 Endurance_16 = -deltaH./rate_descent_16;
 
+% Trim condition
+
+CD_zero_moment_16 = interp1(alpha_16-alpha_0_16,CD_16,alpha_zero_torque_16);
+
+R_Trim_16 = deltaH*Cl_zero_moment_16/CD_zero_moment_16;
+
+E_Trim_16 = deltaH/(sqrt(2*W(1)/(rho*S(1))).*CD_zero_moment_16/(Cl_zero_moment_16^(3/2)));
+
 %% Plots 
 figure(1)
 hold on 
 plot(alpha_Nom-alpha_0_Nom,Cm_Nom)
-plot(alpha_18-alpha_0_18,Cm_18)
-plot(alpha_17-alpha_0_17,Cm_17)
+plot(alpha_30-alpha_0_30,Cm_30)
+plot(alpha_40-alpha_0_40,Cm_40)
 plot(alpha_16-alpha_0_16,Cm_16)
 yline(0,'--')
 grid minor
@@ -143,8 +174,8 @@ title('Analysis of the aircraft performance for different $x_{CG}$','Interpreter
 figure(2)
 hold on 
 plot(alpha_Nom-alpha_0_Nom,CL_Nom)
-plot(alpha_18-alpha_0_18,CL_18)
-plot(alpha_17-alpha_0_17,CL_17)
+plot(alpha_30-alpha_0_30,CL_30)
+plot(alpha_40-alpha_0_40,CL_40)
 plot(alpha_16-alpha_0_16,CL_16)
 yline(0,'--')
 grid minor
@@ -158,8 +189,8 @@ title('Analysis of the aircraft performance for different $x_{CG}$','Interpreter
 figure(3)
 hold on 
 plot(Cm_Nom,CL_Nom)
-plot(Cm_18,CL_18)
-plot(Cm_17,CL_17)
+plot(Cm_30,CL_30)
+plot(Cm_40,CL_40)
 plot(Cm_16,CL_16)
 yline(0,'--')
 xlim([-0.5,0.6])
@@ -172,10 +203,15 @@ title('Analysis of the aircraft performance for different headwinds','Interprete
 
 figure(4)
 hold on 
-plot(alpha_Nom(CL_Nom>=0)-alpha_0_Nom,Endurance_Nom,'--','LineWidth',1)
-plot(alpha_18(CL_18>=0)-alpha_0_18,Endurance_18,'LineWidth',1)
-plot(alpha_17(CL_17>=0)-alpha_0_17,Endurance_17,'LineWidth',1)
-plot(alpha_16(CL_16>=0)-alpha_0_16,Endurance_16,'LineWidth',1)
+plot(alpha_Nom(CL_Nom>=0)-alpha_0_Nom,Endurance_Nom,'b--','LineWidth',1)
+plot(alpha_40(CL_40>=0)-alpha_0_40,Endurance_40,'r-','LineWidth',1)
+plot(alpha_30(CL_30>=0)-alpha_0_30,Endurance_30,'m-','LineWidth',1)
+plot(alpha_16(CL_16>=0)-alpha_0_16,Endurance_16,'k-','LineWidth',1)
+
+plot(alpha_zero_torque_Nom,E_Trim_Nom,'b.','MarkerSize',20)
+plot(alpha_zero_torque_40,E_Trim_40,'r.','MarkerSize',20)
+plot(alpha_zero_torque_30,E_Trim_30,'m.','MarkerSize',20)
+plot(alpha_zero_torque_16,E_Trim_16,'k.','MarkerSize',20)
 yline(0,'--')
 grid minor
 axis square
@@ -187,10 +223,15 @@ title('Aircraft performance for different headwinds','Interpreter','latex','Font
 
 figure(5)
 hold on 
-plot(alpha_Nom(CL_Nom>=0)-alpha_0_Nom,R_Nom,'--','LineWidth',1)
-plot(alpha_18(CL_18>=0)-alpha_0_18,R_18,'LineWidth',1)
-plot(alpha_17(CL_17>=0)-alpha_0_17,R_17,'LineWidth',1)
-plot(alpha_16(CL_16>=0)-alpha_0_16,R_16,'LineWidth',1)
+plot(alpha_Nom(CL_Nom>=0)-alpha_0_Nom,R_Nom,'b--','LineWidth',1)
+plot(alpha_40(CL_40>=0)-alpha_0_40,R_40,'r-','LineWidth',1)
+plot(alpha_30(CL_30>=0)-alpha_0_30,R_30,'m-','LineWidth',1)
+plot(alpha_16(CL_16>=0)-alpha_0_16,R_16,'k-','LineWidth',1)
+
+plot(alpha_zero_torque_Nom,R_Trim_Nom,'b.','MarkerSize',20)
+plot(alpha_zero_torque_40,R_Trim_40,'r.','MarkerSize',20)
+plot(alpha_zero_torque_30,R_Trim_30,'m.','MarkerSize',20)
+plot(alpha_zero_torque_16,R_Trim_16,'k.','MarkerSize',20)
 yline(0,'--')
 grid minor
 axis square
@@ -204,7 +245,7 @@ title('Aircraft performance for different headwinds','Interpreter','latex','Font
 % hold on
 % grid minor
 % axis square
-% plot([-6,-4,-1,1], [V_18,V_17,V_Nom,V_16],'r.-','MarkerSize',10,'LineWidth',2)
+% plot([-6,-4,-1,1], [V_30,V_40,V_Nom,V_16],'r.-','MarkerSize',10,'LineWidth',2)
 % xlabel('Twist at the tip [$^{\circ}$]','Interpreter','latex','FontSize',18)
 % ylabel('Trim velocity [m/s]','Interpreter','latex','FontSize',18)
 % title('Trim condition for different twist angles at the tip','Interpreter','latex','FontSize',18)
