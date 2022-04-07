@@ -109,3 +109,45 @@ ylabel('Range [m]','Interpreter','latex','FontSize',18)
 yyaxis right 
 plot( alpha_true(CL>=0),Endurance)
 ylabel('Endurance [s]','Interpreter','latex','FontSize',18)
+
+figure(5)
+sgtitle('Aircraft performance for the nominal case','Interpreter','latex')
+subplot(2,2,1)
+    hold on
+    grid minor
+    plot(alpha-alpha_0,Cm,'LineWidth',1)
+    yline(0,'--')
+    axis square
+    xlim([0,7.5])
+    xlabel('$\alpha$ [$^{\circ}$]','Interpreter','latex')
+    ylabel('$C_{m}$','Interpreter','latex')
+subplot(2,2,2)
+    hold on 
+    grid minor 
+    plot(alpha-alpha_0,CL,'LineWidth',1)
+    yline(0,'--')
+    axis square
+    xlim([-3,7.5])
+    xlabel('$\alpha$ [$^{\circ}$]','Interpreter','latex')
+    ylabel('$C_{L}$','Interpreter','latex')
+subplot(2,2,3)
+    hold on 
+    grid minor 
+    plot(CL,Cm,'LineWidth',1)
+    yline(0,'--')
+    xlim([-0.2,0.6])
+    axis square
+    xlabel('$C_{L}$' ,'Interpreter','latex')
+    ylabel('$C_{m}$','Interpreter','latex')
+subplot(2,2,4) 
+    hold on 
+    grid minor 
+    plot(alpha-alpha_0,Eff,'LineWidth',1)
+    yline(0,'--')
+    xlim([-4,6])
+    axis square
+    xlabel('$\alpha$ [$^{\circ}$]' ,'Interpreter','latex')
+    ylabel('$C_{L}/C_{D}$','Interpreter','latex')
+
+
+ 
