@@ -13,7 +13,7 @@ Headers = { 'alpha','Beta','CL','CDi','CDv','CD','CY', 'Cl','Cm','Cn','Cni','QIn
 
 % Legend for the different cases of study 
 
-leyenda = {'Nominal Case','$V_{g}$=10m/s','$V_{g}$=15m/s','$V_{g}$=5m/s'};
+leyenda = {'Nominal Case','$U_{\infty}$=15m/s','$U_{\infty}$=10m/s','$U_{\infty}$=5m/s'};
 
 
 %% Nominal case 
@@ -43,7 +43,7 @@ rate_descent_Nom = - sqrt(2*W/(rho*S)).*CD_Nom(CL_Nom>=0)./(CL_Nom(CL_Nom>=0).^(
 
 % Endurance_Nom = -deltaH./rate_descent_Nom;
 
-Endurance_Nom = R_Nom/V_Nom;
+Endurance_Nom = R_Nom./V_Nom;
 
 % Trim condition
 
@@ -90,8 +90,8 @@ CD_zero_moment_15 = interp1(alpha_15-alpha_0_15,CD_15,alpha_zero_torque_15);
 R_Trim_15 = deltaH*Cl_zero_moment_15/CD_zero_moment_15;
 
 %E_Trim_15 = deltaH/(sqrt(2*W(1)/(rho*S(1))).*CD_zero_moment_15/(Cl_zero_moment_15^(3/2)));
- 
-E_Trim_15 = R_Trim_15/V_15;
+
+E_Trim_15 = R_Trim_15
 
 %% U_inf = 10
 
@@ -117,8 +117,7 @@ R_10 = deltaH.*CL_10(CL_10>=0)./CD_10(CL_10>=0);
 
 rate_descent_10 = - sqrt(2*W/(rho*S)).*CD_10(CL_10>=0)./(CL_10(CL_10>=0).^(3/2)); 
 
-%Endurance_10 = -deltaH./rate_descent_10;
-Endurance_10 = R_10/V_10;
+Endurance_10 = -deltaH./rate_descent_10;
 
 % Trim condition
 
@@ -126,8 +125,7 @@ CD_zero_moment_10 = interp1(alpha_10-alpha_0_10,CD_10,alpha_zero_torque_10);
 
 R_Trim_10 = deltaH*Cl_zero_moment_10/CD_zero_moment_10;
 
-%E_Trim_10 = deltaH/(sqrt(2*W(1)/(rho*S(1))).*CD_zero_moment_10/(Cl_zero_moment_10^(3/2)));
-E_Trim_10 = R_Trim_10/V_10; 
+E_Trim_10 = deltaH/(sqrt(2*W(1)/(rho*S(1))).*CD_zero_moment_10/(Cl_zero_moment_10^(3/2)));
 
 %% U_inf = 5 m/s 
 
@@ -147,15 +145,14 @@ alpha_zero_torque_5 = interp1(Cm_5,alpha_5-alpha_0_5,0);
 
 Cl_zero_moment_5 = interp1(alpha_5-alpha_0_5,CL_5,alpha_zero_torque_5);
 
-V_5 = sqrt(2*W/(rho*S*Cl_zero_moment_5)) -15;
+V_5 = sqrt(2*W/(rho*S*Cl_zero_moment_5));
 
 
 R_5 = deltaH.*CL_5(CL_5>=0)./CD_5(CL_5>=0);
 
 rate_descent_5 = - sqrt(2*W/(rho*S)).*CD_5(CL_5>=0)./(CL_5(CL_5>=0).^(3/2)); 
 
-%Endurance_5 = -deltaH./rate_descent_5;
-Endurance_5 = R_5/V_5; 
+Endurance_5 = -deltaH./rate_descent_5;
 
 % Trim condition
 
@@ -163,10 +160,7 @@ CD_zero_moment_5 = interp1(alpha_5-alpha_0_5,CD_5,alpha_zero_torque_5);
 
 R_Trim_5 = deltaH*Cl_zero_moment_5/CD_zero_moment_5;
 
-%E_Tri
-% m_5 = deltaH/(sqrt(2*W(1)/(rho*S(1))).*CD_zero_moment_5/(Cl_zero_moment_5^(3/2)));
-E_Trim_5 = R_Trim_5/V_5; 
-
+E_Trim_5 = deltaH/(sqrt(2*W(1)/(rho*S(1))).*CD_zero_moment_5/(Cl_zero_moment_5^(3/2)));
 
 %% Plots 
 figure(1)
@@ -229,10 +223,10 @@ yline(0,'--')
 grid minor
 axis square
 xlim([0,7.5])
-xlabel('$\alpha$ [$^{\circ}$]','Interpreter','latex','FontSize',14)
-ylabel('$Endurance [s]$','Interpreter','latex','FontSize',14)
+xlabel('$\alpha$ [$^{\circ}$]','Interpreter','latex','FontSize',18)
+ylabel('$Endurance [s]$','Interpreter','latex','FontSize',18)
 legend(leyenda,'Interpreter','latex')
-title('Aircraft performance for different headwinds','Interpreter','latex','FontSize',14)
+title('Aircraft performance for different headwinds','Interpreter','latex','FontSize',18)
 
 figure(5)
 hold on 
@@ -249,10 +243,10 @@ yline(0,'--')
 grid minor
 axis square
 xlim([0,7.5])
-xlabel('$\alpha$ [$^{\circ}$]','Interpreter','latex','FontSize',14)
-ylabel('$Range [m]$','Interpreter','latex','FontSize',14)
+xlabel('$\alpha$ [$^{\circ}$]','Interpreter','latex','FontSize',18)
+ylabel('$Range [m]$','Interpreter','latex','FontSize',18)
 legend(leyenda,'Interpreter','latex')
-title('Aircraft performance for different headwinds','Interpreter','latex','FontSize',14)
+title('Aircraft performance for different headwinds','Interpreter','latex','FontSize',18)
 
 % figure(6)
 % hold on

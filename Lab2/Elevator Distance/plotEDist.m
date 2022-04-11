@@ -111,7 +111,7 @@ rate_descent_3 = - sqrt(2*W/(rho*S)).*CD_3(CL_3>=0)./(CL_3(CL_3>=0).^(3/2));
 
 Endurance_3 = -deltaH./rate_descent_3;
 
-CD_zero_moment_3 = interp1(alpha_3-alpha_0_3,CD_3,alpha_zero_torque_3);
+CD_zero_moment_3 = interp1(alpha_3-alpha_0_3,CD_3,alpha_zero_torque_3,'pchip');
 
 R_Trim_3 = deltaH*Cl_zero_moment_3/CD_zero_moment_3;
 
